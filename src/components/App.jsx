@@ -1,4 +1,3 @@
-// import { Component } from 'react';
 import { useState, useEffect } from 'react';
 
 import { Container } from './index.styled';
@@ -42,10 +41,21 @@ export const App = () => {
   }, [contacts]);
 
   const handleAddContact = newContact => {
-    const isTrue = contacts.some(({ name }) => name === newContact.name);
-    if (isTrue) {
+    const isNameExist = contacts.some(({ name }) => name === newContact.name);
+    const isNumberExist = contacts.some(
+      ({ number }) => number === newContact.number
+    );
+
+    if (isNameExist) {
       Notify.info(
         `${newContact.name} is already in your Contact List!`,
+        notifyInit
+      );
+      return;
+    }
+    if (isNumberExist) {
+      Notify.info(
+        `${newContact.number} is already in your Contact List!`,
         notifyInit
       );
       return;
@@ -65,8 +75,10 @@ export const App = () => {
   };
 
   const getFilterContacts = () => {
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase().trim())
+    return contacts.filter(
+      ({ name, number }) =>
+        name.toLowerCase().includes(filter.toLowerCase().trim()) ||
+        number.includes(filter)
     );
   };
 
