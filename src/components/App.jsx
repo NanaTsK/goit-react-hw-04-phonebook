@@ -36,13 +36,10 @@ export const App = () => {
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    return () => {
+      localStorage.removeItem('contacts');
+    };
   }, [contacts]);
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   return () => {
-  //     localStorage.removeItem('contacts');
-  //   };
-  // }, [contacts]);
 
   const handleAddContact = newContact => {
     const isTrue = contacts.some(({ name }) => name === newContact.name);
